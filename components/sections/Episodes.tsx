@@ -105,8 +105,10 @@ function EpisodeCard({ ep, delay, isActive }: { ep: typeof EPISODES[0]; delay: n
           href={ep.spotify}
           target="_blank"
           rel="noopener noreferrer"
+          className="pill-link"
           style={{
             flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
+            minHeight: '44px',
             fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.1em',
             textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)',
             textDecoration: 'none', border: '1px solid rgba(255,255,255,0.12)',
@@ -214,8 +216,10 @@ export default function Episodes({ isActive = false }: { isActive?: boolean }) {
               href={p.href}
               target="_blank"
               rel="noopener noreferrer"
+              className="pill-link"
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
+                minHeight: '44px',
                 fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em',
                 textTransform: 'uppercase', color: 'rgba(255,255,255,0.40)',
                 textDecoration: 'none', border: '1px solid rgba(255,255,255,0.10)',

@@ -40,7 +40,7 @@ export default function Hero({ onNavigate }: { onNavigate?: (id: SectionId) => v
       />
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center gap-6" style={{ paddingTop: '88px' }}>
+      <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center gap-6" style={{ paddingTop: '110px' }}>
         {/* Eyebrow */}
         <motion.p
           {...fadeUp(0.3)}
@@ -86,7 +86,7 @@ export default function Hero({ onNavigate }: { onNavigate?: (id: SectionId) => v
         {/* Metadata row */}
         <motion.div
           {...fadeIn(0.9)}
-          className="flex items-center gap-4 sm:gap-8 pt-4"
+          className="flex flex-wrap justify-center items-center gap-x-4 gap-y-2 sm:gap-x-8 pt-4"
         >
           {[
             { label: 'ISSUE NO.', value: '01' },

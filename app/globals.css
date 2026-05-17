@@ -100,6 +100,14 @@ body {
   color: #1A14F5;
 }
 
+/* Pill links — touch accessibility */
+.pill-link {
+  touch-action: manipulation;
+}
+.pill-link:active {
+  opacity: 0.65;
+}
+
 /* Grainient */
 .grainient-container {
   position: absolute;

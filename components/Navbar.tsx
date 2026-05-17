@@ -171,10 +171,7 @@ export default function Navbar({ onNavigate, activeSection }: { onNavigate: (id:
             className="pointer-events-auto absolute flex items-center gap-3 flex-shrink-0"
             style={{
               top: '50%',
-              ...(activeSection === 'hero'
-                ? { left: '50%', transform: 'translate(-50%, -50%)' }
-                : { left: '1.5rem', transform: 'translateY(-50%)' }
-              ),
+              left: '1.5rem', transform: 'translateY(-50%)',
               opacity: wordmarkDimmed ? 0 : 1,
               transition: 'opacity 0.4s ease',
               textDecoration: 'none',
@@ -203,7 +200,7 @@ export default function Navbar({ onNavigate, activeSection }: { onNavigate: (id:
           <button
             onClick={toggle}
             className="pointer-events-auto absolute flex items-center gap-3 text-white cursor-pointer flex-shrink-0"
-            style={{ top: '50%', right: '2.5rem', transform: 'translateY(-50%)' }}
+            style={{ top: '50%', right: '1.25rem', transform: 'translateY(-50%)' }}
             aria-label="Toggle menu"
           >
             <div className="overflow-hidden" style={{ height: '1.5rem' }}>
@@ -321,7 +318,7 @@ export default function Navbar({ onNavigate, activeSection }: { onNavigate: (id:
                       ref={(el) => { if (el) linksRef.current[i] = el; }}
                       style={{
                         display: 'block',
-                        fontSize: 'clamp(2.8rem, 7vw, 7rem)',
+                        fontSize: 'clamp(1.8rem, 6.5vw, 7rem)',
                         fontWeight: 900,
                         color: '#ffffff',
                         letterSpacing: '-0.02em',

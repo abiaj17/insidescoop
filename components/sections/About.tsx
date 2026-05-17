@@ -47,7 +47,7 @@ export default function About({ isActive = false }: { isActive?: boolean }) {
     >
       {/* ── Text column ─────────────────────────────────────── */}
       <div
-        className="order-2 lg:order-1 flex flex-col justify-center"
+        className="flex flex-col justify-center"
         style={{
           padding: 'clamp(2.5rem, 5vw, 5rem) clamp(1.5rem, 6vw, 6rem)',
           paddingTop: 'clamp(7rem, 10vw, 8rem)',
@@ -100,13 +100,11 @@ export default function About({ isActive = false }: { isActive?: boolean }) {
         {/* Body */}
         <motion.p
           {...reveal(0.3, isActive)}
-          className="drop-cap"
           style={{
             fontSize: '1.0625rem',
             fontWeight: 300, lineHeight: 1.85,
             color: 'rgba(255,255,255,0.88)',
             marginBottom: '1.25rem',
-            overflow: 'hidden',
           }}
         >
           I&apos;m Aaryan, a high school student who got a little too deep into business content.
@@ -146,7 +144,7 @@ export default function About({ isActive = false }: { isActive?: boolean }) {
       </div>
 
       {/* ── Image column ────────────────────────────────────── */}
-      <div className="order-1 lg:order-2 flex items-start justify-center" style={{ padding: 'clamp(2rem, 4vw, 4rem)', paddingTop: 'clamp(7rem, 10vw, 8rem)' }}>
+      <div className="flex items-start justify-center" style={{ padding: 'clamp(2rem, 4vw, 4rem)', paddingTop: 'clamp(7rem, 10vw, 8rem)' }}>
         <motion.div
           initial={{ opacity: 0, scale: 0.92 }}
           animate={{ opacity: isActive ? 1 : 0, scale: isActive ? 1 : 0.92 }}
@@ -198,10 +196,10 @@ export default function About({ isActive = false }: { isActive?: boolean }) {
             <motion.div
               key={g.num}
               {...reveal(0.56 + i * 0.07, isActive)}
+              className="grid grid-cols-[2.5rem_1fr] sm:grid-cols-[2.5rem_9rem_1fr]"
               style={{
-                display: 'grid',
-                gridTemplateColumns: '2.5rem 9rem 1fr',
-                gap: '0.75rem 1.5rem',
+                rowGap: '0.25rem',
+                columnGap: '1.5rem',
                 alignItems: 'baseline',
                 borderTop: '1px solid rgba(255,255,255,0.07)',
                 padding: '0.75rem 0',
@@ -209,7 +207,7 @@ export default function About({ isActive = false }: { isActive?: boolean }) {
             >
               <span style={{ fontSize: '11px', fontWeight: 500, color: '#1A14F5', letterSpacing: '0.1em' }}>{g.num}</span>
               <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: 'white', letterSpacing: '0.02em', textTransform: 'uppercase' }}>{g.title}</span>
-              <span style={{ fontSize: '0.9375rem', fontWeight: 300, color: 'rgba(255,255,255,0.78)', lineHeight: 1.6 }}>{g.desc}</span>
+              <span className="col-span-2 sm:col-auto" style={{ fontSize: '0.9375rem', fontWeight: 300, color: 'rgba(255,255,255,0.78)', lineHeight: 1.6 }}>{g.desc}</span>
             </motion.div>
           ))}
           <div style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }} />
@@ -248,7 +246,8 @@ export default function About({ isActive = false }: { isActive?: boolean }) {
               </div>
               <a
                 href={ep.spotify} target="_blank" rel="noopener noreferrer"
-                style={{ flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: '0.45rem', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.45)', textDecoration: 'none', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '999px', padding: '0.4rem 0.9rem', transition: 'color 0.2s, border-color 0.2s' }}
+                className="pill-link"
+                style={{ flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: '0.45rem', minHeight: '44px', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.45)', textDecoration: 'none', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '999px', padding: '0.4rem 0.9rem', transition: 'color 0.2s, border-color 0.2s' }}
                 onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = '#1DB954'; (e.currentTarget as HTMLAnchorElement).style.borderColor = '#1DB954'; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.45)'; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(255,255,255,0.12)'; }}
               >
@@ -273,8 +272,10 @@ export default function About({ isActive = false }: { isActive?: boolean }) {
             href="https://www.youtube.com/@TheInsideScoop-ByAaryanPol"
             target="_blank"
             rel="noopener noreferrer"
+            className="pill-link"
             style={{
               display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
+              minHeight: '44px',
               fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase',
               color: 'rgba(255,255,255,0.4)', textDecoration: 'none',
               border: '1px solid rgba(255,255,255,0.1)', borderRadius: '999px',

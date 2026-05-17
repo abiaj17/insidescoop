@@ -1,26 +1,110 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-urbanist);
+  --color-brand: #1A14F5;
+  --color-brand-light: #4d6cff;
+  --color-brand-deep: #02013D;
+  --color-dark: #080812;
+  --color-dark-2: #0d0d1a;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --background: #080812;
+  --foreground: #ffffff;
 }
 
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
 body {
+  height: 100%;
+  overflow: hidden;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+.view-host {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.view-section {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.45s ease, visibility 0.45s ease;
+}
+
+.view-section.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.snap-section {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Ticker marquee */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.ticker-track {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  animation: marquee 28s linear infinite;
+  will-change: transform;
+}
+.ticker-track:hover {
+  animation-play-state: paused;
+}
+
+/* Wordmark roll hover */
+.wordmark-roll {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
+  line-height: 1.15;
+  height: 1.15em;
+  cursor: pointer;
+}
+.wordmark-roll span {
+  display: block;
+  white-space: nowrap;
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.wordmark-roll:hover span {
+  transform: translateY(-100%);
+}
+
+/* Drop cap */
+.drop-cap::first-letter {
+  float: left;
+  font-size: 4.2em;
+  font-weight: 900;
+  line-height: 0.8;
+  margin-right: 0.07em;
+  margin-top: 0.08em;
+  color: #1A14F5;
+}
+
+/* Grainient */
+.grainient-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }

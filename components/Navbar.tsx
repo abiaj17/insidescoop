@@ -181,7 +181,7 @@ export default function Navbar({ onNavigate, activeSection }: { onNavigate: (id:
               <Image src="/logo.webp" alt="The Inside Scoop" width={44} height={44} className="w-full h-full object-cover" />
             </div>
             <div
-              className="wordmark-roll hidden sm:block"
+              className="wordmark-roll hidden lg:block"
               style={{
                 fontSize: '28px',
                 fontWeight: 900,

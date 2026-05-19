@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Snowstorm from '@/components/Snowstorm';
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
@@ -142,9 +143,10 @@ export default function Episodes({ isActive = false }: { isActive?: boolean }) {
         const dim = e.currentTarget.scrollTop > 50;
         window.dispatchEvent(new CustomEvent('wordmark-dim', { detail: { dim } }));
       }}
-      style={{ backgroundColor: '#050d1f', overflowY: 'auto', overflowX: 'hidden' }}
+      style={{ backgroundColor: '#050d1f', overflowY: 'auto', overflowX: 'hidden', position: 'relative' }}
     >
-      <div style={{ padding: 'clamp(5rem, 8vw, 7rem) clamp(1.5rem, 6vw, 6rem) clamp(2.5rem, 4vw, 4rem)' }}>
+      <Snowstorm count={70} />
+      <div style={{ padding: 'clamp(5rem, 8vw, 7rem) clamp(1.5rem, 6vw, 6rem) clamp(2.5rem, 4vw, 4rem)', position: 'relative', zIndex: 1 }}>
 
         {/* Eyebrow */}
         <motion.p

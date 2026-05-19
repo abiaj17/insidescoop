@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+.galaxy-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
 @theme inline {
   --font-sans: 'Switzer', var(--font-urbanist);
   --color-brand: #1A14F5;

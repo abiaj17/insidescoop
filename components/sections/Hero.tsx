@@ -21,7 +21,7 @@ const fadeIn = (delay: number) => ({
 export default function Hero({ onNavigate }: { onNavigate?: (id: SectionId) => void }) {
 
   return (
-    <section id="hero" className="snap-section flex flex-col">
+    <section id="hero" className="snap-section flex flex-col relative">
       <Grainient
         color1="#5577FF"
         color2="#1A14F5"
@@ -37,6 +37,15 @@ export default function Hero({ onNavigate }: { onNavigate?: (id: SectionId) => v
         saturation={1.15}
         zoom={0.85}
         rotationAmount={420}
+      />
+
+      {/* Border frame */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.4, ease, delay: 0.2 }}
+        className="absolute inset-3 pointer-events-none z-20"
+        style={{ border: '1px solid rgba(255,255,255,0.28)', borderRadius: '2px' }}
       />
 
       {/* Content */}

@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import Galaxy from '@/components/Galaxy';
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
@@ -36,21 +37,31 @@ export default function About({ isActive = false }: { isActive?: boolean }) {
       }}
       style={{
         backgroundColor: '#080812',
-        backgroundImage: `
-          radial-gradient(ellipse 60% 50% at 4% 20%, rgba(26,20,245,0.13) 0%, transparent 60%),
-          radial-gradient(ellipse 45% 40% at 90% 80%, rgba(85,119,255,0.07) 0%, transparent 55%)
-        `,
         overflowY: 'auto',
         overflowX: 'hidden',
         position: 'relative',
       }}
     >
+      <Galaxy
+        transparent
+        mouseInteraction={false}
+        density={0.7}
+        glowIntensity={0.18}
+        saturation={0.4}
+        hueShift={220}
+        rotationSpeed={0.015}
+        twinkleIntensity={0.2}
+        speed={0.4}
+        style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none' }}
+      />
       {/* ── Text column ─────────────────────────────────────── */}
       <div
         className="flex flex-col justify-center"
         style={{
-          padding: 'clamp(2.5rem, 5vw, 5rem) clamp(1.5rem, 6vw, 6rem)',
           paddingTop: 'clamp(7rem, 10vw, 8rem)',
+          paddingRight: 'clamp(1.5rem, 6vw, 6rem)',
+          paddingBottom: 'clamp(2.5rem, 5vw, 5rem)',
+          paddingLeft: 'clamp(1.5rem, 6vw, 6rem)',
         }}
       >
         {/* Eyebrow */}
@@ -144,7 +155,7 @@ export default function About({ isActive = false }: { isActive?: boolean }) {
       </div>
 
       {/* ── Image column ────────────────────────────────────── */}
-      <div className="flex items-start justify-center" style={{ padding: 'clamp(2rem, 4vw, 4rem)', paddingTop: 'clamp(7rem, 10vw, 8rem)' }}>
+      <div className="flex items-start justify-center" style={{ paddingTop: 'clamp(7rem, 10vw, 8rem)', paddingRight: 'clamp(2rem, 4vw, 4rem)', paddingBottom: 'clamp(2rem, 4vw, 4rem)', paddingLeft: 'clamp(2rem, 4vw, 4rem)' }}>
         <motion.div
           initial={{ opacity: 0, scale: 0.92 }}
           animate={{ opacity: isActive ? 1 : 0, scale: isActive ? 1 : 0.92 }}

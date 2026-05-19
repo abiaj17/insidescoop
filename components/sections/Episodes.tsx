@@ -142,7 +142,7 @@ export default function Episodes({ isActive = false }: { isActive?: boolean }) {
         const dim = e.currentTarget.scrollTop > 50;
         window.dispatchEvent(new CustomEvent('wordmark-dim', { detail: { dim } }));
       }}
-      style={{ backgroundColor: '#0d0d1a', overflowY: 'auto', overflowX: 'hidden' }}
+      style={{ backgroundColor: '#050d1f', overflowY: 'auto', overflowX: 'hidden' }}
     >
       <div style={{ padding: 'clamp(5rem, 8vw, 7rem) clamp(1.5rem, 6vw, 6rem) clamp(2.5rem, 4vw, 4rem)' }}>
 

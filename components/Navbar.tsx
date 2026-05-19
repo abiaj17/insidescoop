@@ -11,11 +11,11 @@ if (typeof window !== 'undefined') {
   CustomEase.create('main', '0.65, 0.01, 0.05, 0.99');
 }
 
-const navLinks: { label: string; id: SectionId; shape: number }[] = [
-  { label: 'About Me',    id: 'about',    shape: 1 },
-  { label: 'Episodes',    id: 'episodes', shape: 2 },
-  { label: 'About the Podcast', id: 'podcast',  shape: 3 },
-  { label: 'Get in Touch', id: 'guest',    shape: 4 },
+const navLinks: { label: string; id: SectionId }[] = [
+  { label: 'About Me',          id: 'about'    },
+  { label: 'Episodes',          id: 'episodes' },
+  { label: 'About the Podcast', id: 'podcast'  },
+  { label: 'Get in Touch',      id: 'guest'    },
 ];
 
 export default function Navbar({ onNavigate, activeSection }: { onNavigate: (id: SectionId) => void; activeSection?: SectionId }) {
@@ -81,46 +81,6 @@ export default function Navbar({ onNavigate, activeSection }: { onNavigate: (id:
     window.addEventListener('keydown', h);
     return () => window.removeEventListener('keydown', h);
   }, [isOpen, closeMenu]);
-
-  // Shape hover effects — set up once after mount
-  useEffect(() => {
-    if (!containerRef.current) return;
-    const shapesContainer = containerRef.current.querySelector('.ambient-background-shapes');
-    const menuItems = containerRef.current.querySelectorAll('.menu-list-item[data-shape]');
-
-    const cleanups: (() => void)[] = [];
-
-    menuItems.forEach((item) => {
-      const idx = item.getAttribute('data-shape');
-      const shape = shapesContainer?.querySelector(`.bg-shape-${idx}`);
-      if (!shape) return;
-      const els = shape.querySelectorAll('.shape-element');
-
-      const onEnter = () => {
-        shapesContainer?.querySelectorAll('.bg-shape').forEach((s) => s.classList.remove('active'));
-        shape.classList.add('active');
-        gsap.fromTo(els,
-          { scale: 0.5, opacity: 0, rotation: -10 },
-          { scale: 1, opacity: 1, rotation: 0, duration: 0.6, stagger: 0.08, ease: 'back.out(1.7)', overwrite: 'auto' }
-        );
-      };
-      const onLeave = () => {
-        gsap.to(els, {
-          scale: 0.8, opacity: 0, duration: 0.3, ease: 'power2.in',
-          onComplete: () => shape.classList.remove('active'), overwrite: 'auto',
-        });
-      };
-
-      item.addEventListener('mouseenter', onEnter);
-      item.addEventListener('mouseleave', onLeave);
-      cleanups.push(() => {
-        item.removeEventListener('mouseenter', onEnter);
-        item.removeEventListener('mouseleave', onLeave);
-      });
-    });
-
-    return () => cleanups.forEach((fn) => fn());
-  }, []);
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, id: SectionId) => {
     e.preventDefault();
@@ -258,43 +218,6 @@ export default function Navbar({ onNavigate, activeSection }: { onNavigate: (id:
             />
           ))}
 
-          {/* Ambient shapes */}
-          <div className="ambient-background-shapes" style={{ position: 'absolute', inset: 0, zIndex: 4, pointerEvents: 'none' }}>
-            {[1, 2, 3, 4, 5].map((i) => (
-              <svg
-                key={i}
-                className={`bg-shape bg-shape-${i}`}
-                viewBox="0 0 400 400"
-                fill="none"
-                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0 }}
-              >
-                {i === 1 && (<>
-                  <circle className="shape-element" cx="80"  cy="120" r="50"  fill="rgba(77,108,255,0.15)" />
-                  <circle className="shape-element" cx="320" cy="80"  r="80"  fill="rgba(26,20,245,0.1)"  />
-                  <circle className="shape-element" cx="200" cy="320" r="100" fill="rgba(85,119,255,0.08)" />
-                </>)}
-                {i === 2 && (<>
-                  <path className="shape-element" d="M0 200 Q100 80,200 200 T400 200" stroke="rgba(77,108,255,0.2)"  strokeWidth="60" fill="none" />
-                  <path className="shape-element" d="M0 300 Q100 180,200 300 T400 300" stroke="rgba(26,20,245,0.15)" strokeWidth="40" fill="none" />
-                </>)}
-                {i === 3 && (<>
-                  {[50,150,250,350].map((cx) => <circle key={cx} className="shape-element" cx={cx} cy="100" r="10" fill="rgba(77,108,255,0.35)"  />)}
-                  {[100,200,300].map((cx)    => <circle key={cx} className="shape-element" cx={cx} cy="220" r="14" fill="rgba(26,20,245,0.25)"   />)}
-                  {[50,150,250,350].map((cx) => <circle key={cx} className="shape-element" cx={cx} cy="340" r="8"  fill="rgba(85,119,255,0.3)"   />)}
-                </>)}
-                {i === 4 && (<>
-                  <path className="shape-element" d="M100 100 Q150 50,200 100 Q250 150,200 200 Q150 250,100 200 Q50 150,100 100"        fill="rgba(26,20,245,0.12)" />
-                  <path className="shape-element" d="M250 220 Q300 170,350 220 Q400 270,350 320 Q300 370,250 320 Q200 270,250 220" fill="rgba(77,108,255,0.1)"  />
-                </>)}
-                {i === 5 && (<>
-                  <line className="shape-element" x1="0"   y1="120" x2="320" y2="400" stroke="rgba(77,108,255,0.15)"  strokeWidth="35" />
-                  <line className="shape-element" x1="120" y1="0"   x2="400" y2="300" stroke="rgba(26,20,245,0.12)"   strokeWidth="28" />
-                  <line className="shape-element" x1="250" y1="0"   x2="400" y2="180" stroke="rgba(85,119,255,0.1)"   strokeWidth="22" />
-                </>)}
-              </svg>
-            ))}
-          </div>
-
           {/* Nav links */}
           <div style={{
             position: 'relative', zIndex: 5,
@@ -305,8 +228,6 @@ export default function Navbar({ onNavigate, activeSection }: { onNavigate: (id:
               {navLinks.map((link, i) => (
                 <li
                   key={link.label}
-                  className="menu-list-item"
-                  data-shape={link.shape}
                   style={{ lineHeight: 1, marginBottom: '0.05em' }}
                 >
                   <a

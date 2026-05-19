@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { GradientDots } from '@/components/ui/gradient-dots';
 
 const ease = [0.16, 1, 0.3, 1] as const;
 function reveal(delay: number, active: boolean) {
@@ -108,18 +109,19 @@ export default function BeAGuest({ isActive = false }: { isActive?: boolean }) {
         const dim = e.currentTarget.scrollTop > 50;
         window.dispatchEvent(new CustomEvent('wordmark-dim', { detail: { dim } }));
       }}
-      style={{
-        backgroundColor: '#080812',
-        backgroundImage: `radial-gradient(ellipse 60% 35% at 50% 0%, rgba(26,20,245,0.22) 0%, transparent 100%)`,
-        overflowY: 'auto',
+      style={{ backgroundColor: '#0d2b5e', overflowY: 'auto' }}
+    >
+      <div style={{
+        position: 'relative',
+        minHeight: '100%',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-start',
         padding: '0 2rem 5rem',
         paddingTop: 'clamp(7rem, 10vw, 8rem)',
-      }}
-    >
-      <div style={{ maxWidth: '900px', margin: '0 auto', width: '100%' }}>
+      }}>
+      <GradientDots backgroundColor="#0d2b5e" dotSize={7} spacing={9} duration={32} colorCycleDuration={7} className="z-0 opacity-[0.18] pointer-events-none" />
+      <div style={{ maxWidth: '900px', margin: '0 auto', width: '100%', position: 'relative', zIndex: 1 }}>
 
         {/* Eyebrow */}
         <motion.p {...reveal(0.05, isActive)} style={{
@@ -336,6 +338,7 @@ export default function BeAGuest({ isActive = false }: { isActive?: boolean }) {
           </div>
 
         </motion.div>
+      </div>
       </div>
     </section>
   );

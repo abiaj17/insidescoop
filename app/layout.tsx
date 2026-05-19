@@ -17,6 +17,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${urbanist.variable} h-full antialiased`}>
+      <head>
+        <link rel="preconnect" href="https://api.fontshare.com" />
+        <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=switzer@700,800,900,400,300&display=swap" />
+      </head>
       <body className="h-full">{children}</body>
     </html>
   );

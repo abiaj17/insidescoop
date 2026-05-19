@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-sans: var(--font-urbanist);
+  --font-sans: 'Switzer', var(--font-urbanist);
   --color-brand: #1A14F5;
   --color-brand-light: #4d6cff;
   --color-brand-deep: #02013D;
@@ -26,6 +26,7 @@ body {
   overflow: hidden;
   background: var(--background);
   color: var(--foreground);
+  font-family: 'Switzer', sans-serif;
 }
 
 .view-host {

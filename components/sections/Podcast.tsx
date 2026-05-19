@@ -76,8 +76,10 @@ export default function Podcast({ isActive = false }: { isActive?: boolean }) {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-start',
-        padding: '0 2rem 5rem',
         paddingTop: 'clamp(7rem, 10vw, 8rem)',
+        paddingRight: 'clamp(1rem, 5vw, 2rem)',
+        paddingBottom: 'clamp(3rem, 6vw, 5rem)',
+        paddingLeft: 'clamp(1rem, 5vw, 2rem)',
       }}
     >
       <div style={{ maxWidth: '900px', margin: '0 auto', width: '100%' }}>

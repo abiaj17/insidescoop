@@ -117,8 +117,10 @@ export default function BeAGuest({ isActive = false }: { isActive?: boolean }) {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-start',
-        padding: '0 2rem 5rem',
         paddingTop: 'clamp(7rem, 10vw, 8rem)',
+        paddingRight: 'clamp(1rem, 5vw, 2rem)',
+        paddingBottom: 'clamp(3rem, 6vw, 5rem)',
+        paddingLeft: 'clamp(1rem, 5vw, 2rem)',
       }}>
       <GradientDots backgroundColor="#0d2b5e" dotSize={7} spacing={9} duration={32} colorCycleDuration={7} className="z-0 opacity-[0.18] pointer-events-none" />
       <div style={{ maxWidth: '900px', margin: '0 auto', width: '100%', position: 'relative', zIndex: 1 }}>
@@ -150,7 +152,7 @@ export default function BeAGuest({ isActive = false }: { isActive?: boolean }) {
         {/* Two-col layout */}
         <motion.div {...reveal(0.35, isActive)} style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
           gap: '1.25rem',
           alignItems: 'start',
         }}>

@@ -21,7 +21,7 @@ const fadeIn = (delay: number) => ({
 export default function Hero({ onNavigate }: { onNavigate?: (id: SectionId) => void }) {
 
   return (
-    <section id="hero" className="snap-section flex flex-col relative">
+    <section id="hero" className="snap-section flex flex-col relative" style={{ overflowY: 'auto' }}>
       <Grainient
         color1="#5577FF"
         color2="#1A14F5"
@@ -49,7 +49,7 @@ export default function Hero({ onNavigate }: { onNavigate?: (id: SectionId) => v
       />
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center gap-6" style={{ paddingTop: '110px' }}>
+      <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center gap-6" style={{ paddingTop: 'clamp(110px, 16vh, 130px)' }}>
         {/* Eyebrow */}
         <motion.p
           {...fadeUp(0.3)}
@@ -79,14 +79,14 @@ export default function Hero({ onNavigate }: { onNavigate?: (id: SectionId) => v
           <button
             onClick={() => onNavigate?.('episodes')}
             className="inline-flex items-center gap-2 rounded-2xl bg-white text-[#1A14F5] font-bold hover:bg-white/90 transition-all duration-200 cursor-pointer"
-            style={{ padding: '16px 40px', fontSize: '15px', letterSpacing: '0.01em' }}
+            style={{ padding: 'clamp(12px, 3vw, 16px) clamp(22px, 6vw, 40px)', fontSize: 'clamp(13px, 2.5vw, 15px)', letterSpacing: '0.01em' }}
           >
             Listen to episodes <span>→</span>
           </button>
           <button
             onClick={() => onNavigate?.('guest')}
             className="inline-flex items-center gap-2 rounded-2xl text-white font-semibold hover:bg-white/10 transition-all duration-200 cursor-pointer"
-            style={{ padding: '16px 40px', fontSize: '15px', letterSpacing: '0.01em', border: '1px solid rgba(255,255,255,0.3)' }}
+            style={{ padding: 'clamp(12px, 3vw, 16px) clamp(22px, 6vw, 40px)', fontSize: 'clamp(13px, 2.5vw, 15px)', letterSpacing: '0.01em', border: '1px solid rgba(255,255,255,0.3)' }}
           >
             Apply to be a guest
           </button>

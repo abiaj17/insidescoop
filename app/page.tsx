@@ -8,6 +8,7 @@ import About from '@/components/sections/About';
 import Episodes from '@/components/sections/Episodes';
 import Podcast from '@/components/sections/Podcast';
 import BeAGuest from '@/components/sections/BeAGuest';
+import Contact from '@/components/sections/Contact';
 
 export default function Home() {
   const [active, setActive] = useState<SectionId>('hero');
@@ -27,6 +28,7 @@ export default function Home() {
         <div className={`view-section${active === 'episodes' ? ' is-active' : ''}`}><Episodes isActive={active === 'episodes'} /></div>
         <div className={`view-section${active === 'podcast'  ? ' is-active' : ''}`}><Podcast isActive={active === 'podcast'} /></div>
         <div className={`view-section${active === 'guest'    ? ' is-active' : ''}`}><BeAGuest isActive={active === 'guest'} /></div>
+        <div className={`view-section${active === 'contact'  ? ' is-active' : ''}`}><Contact /></div>
       </div>
     </>
   );

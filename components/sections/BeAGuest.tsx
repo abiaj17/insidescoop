@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { useForm, ValidationError } from '@formspree/react';
 import { motion } from 'framer-motion';
 import { GradientDots } from '@/components/ui/gradient-dots';
 
@@ -69,8 +70,8 @@ const contacts = [
   {
     Icon: EmailIcon,
     label: 'Email',
-    value: 'contact@theinsidescoop.com', // AARYAN: confirm this address
-    href: 'mailto:contact@theinsidescoop.com',
+    value: 'aaryanpol14@gmail.com',
+    href: 'mailto:aaryanpol14@gmail.com',
   },
   {
     Icon: LinkedInIcon,
@@ -87,15 +88,8 @@ const contacts = [
 ];
 
 export default function BeAGuest({ isActive = false }: { isActive?: boolean }) {
-  const [form, setForm] = useState({ name: '', email: '', role: '', why: '', social: '' });
-  const [submitted, setSubmitted] = useState(false);
+  const [state, handleSubmit] = useForm('xgoqolnw');
   const [focused, setFocused] = useState<string | null>(null);
-
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    // AARYAN: wire up actual form submission (e.g. Formspree, Resend, etc.)
-    setSubmitted(true);
-  }
 
   const focusStyle = (field: string): React.CSSProperties => ({
     ...inputStyle,
@@ -170,7 +164,7 @@ export default function BeAGuest({ isActive = false }: { isActive?: boolean }) {
               Send an Application
             </h3>
 
-            {submitted ? (
+            {state.succeeded ? (
               <div style={{
                 padding: '2rem 0',
                 color: 'rgba(255,255,255,0.85)',
@@ -187,59 +181,58 @@ export default function BeAGuest({ isActive = false }: { isActive?: boolean }) {
                   <input
                     required
                     type="text"
-                    value={form.name}
-                    onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
+                    name="name"
                     onFocus={() => setFocused('name')}
                     onBlur={() => setFocused(null)}
                     style={focusStyle('name')}
                     placeholder="Your name"
                   />
+                  <ValidationError field="name" errors={state.errors} style={{ color: 'rgba(255,100,100,0.85)', fontSize: '0.8rem', marginTop: '0.25rem' }} />
                 </div>
                 <div>
                   <label style={labelStyle}>Email</label>
                   <input
                     required
                     type="email"
-                    value={form.email}
-                    onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                    name="email"
                     onFocus={() => setFocused('email')}
                     onBlur={() => setFocused(null)}
                     style={focusStyle('email')}
                     placeholder="you@example.com"
                   />
+                  <ValidationError field="email" errors={state.errors} style={{ color: 'rgba(255,100,100,0.85)', fontSize: '0.8rem', marginTop: '0.25rem' }} />
                 </div>
                 <div>
                   <label style={labelStyle}>What you do</label>
                   <input
                     required
                     type="text"
-                    value={form.role}
-                    onChange={e => setForm(f => ({ ...f, role: e.target.value }))}
+                    name="role"
                     onFocus={() => setFocused('role')}
                     onBlur={() => setFocused(null)}
                     style={focusStyle('role')}
                     placeholder="Founder, student, researcher..."
                   />
+                  <ValidationError field="role" errors={state.errors} style={{ color: 'rgba(255,100,100,0.85)', fontSize: '0.8rem', marginTop: '0.25rem' }} />
                 </div>
                 <div>
                   <label style={labelStyle}>Why you&apos;d make a good guest</label>
                   <textarea
                     required
-                    value={form.why}
-                    onChange={e => setForm(f => ({ ...f, why: e.target.value }))}
+                    name="why"
                     onFocus={() => setFocused('why')}
                     onBlur={() => setFocused(null)}
                     rows={4}
                     style={{ ...focusStyle('why'), resize: 'vertical' }}
                     placeholder="What's your story? What would you bring to the show?"
                   />
+                  <ValidationError field="why" errors={state.errors} style={{ color: 'rgba(255,100,100,0.85)', fontSize: '0.8rem', marginTop: '0.25rem' }} />
                 </div>
                 <div>
                   <label style={labelStyle}>Social link <span style={{ opacity: 0.45, textTransform: 'none', letterSpacing: 0 }}>(optional)</span></label>
                   <input
                     type="url"
-                    value={form.social}
-                    onChange={e => setForm(f => ({ ...f, social: e.target.value }))}
+                    name="social"
                     onFocus={() => setFocused('social')}
                     onBlur={() => setFocused(null)}
                     style={focusStyle('social')}
@@ -248,6 +241,7 @@ export default function BeAGuest({ isActive = false }: { isActive?: boolean }) {
                 </div>
                 <button
                   type="submit"
+                  disabled={state.submitting}
                   style={{
                     width: '100%',
                     padding: '0.85rem',
@@ -260,14 +254,15 @@ export default function BeAGuest({ isActive = false }: { isActive?: boolean }) {
                     fontFamily: 'inherit',
                     letterSpacing: '0.1em',
                     textTransform: 'uppercase',
-                    cursor: 'pointer',
+                    cursor: state.submitting ? 'not-allowed' : 'pointer',
                     transition: 'opacity 0.2s',
                     marginTop: '0.25rem',
+                    opacity: state.submitting ? 0.6 : 1,
                   }}
-                  onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
-                  onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+                  onMouseEnter={e => { if (!state.submitting) e.currentTarget.style.opacity = '0.85'; }}
+                  onMouseLeave={e => { if (!state.submitting) e.currentTarget.style.opacity = '1'; }}
                 >
-                  Apply
+                  {state.submitting ? 'Sending...' : 'Apply'}
                 </button>
               </form>
             )}

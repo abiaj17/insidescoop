@@ -1,6 +1,5 @@
 'use client';
 import { useState } from 'react';
-import { useForm, ValidationError } from '@formspree/react';
 import { motion } from 'framer-motion';
 import { GradientDots } from '@/components/ui/gradient-dots';
 
@@ -88,13 +87,48 @@ const contacts = [
 ];
 
 export default function BeAGuest({ isActive = false }: { isActive?: boolean }) {
-  const [state, handleSubmit] = useForm('xgoqolnw');
   const [focused, setFocused] = useState<string | null>(null);
+  const [sent, setSent] = useState(false);
+  const [fields, setFields] = useState({
+    name: '',
+    email: '',
+    role: '',
+    why: '',
+    social: '',
+  });
 
   const focusStyle = (field: string): React.CSSProperties => ({
     ...inputStyle,
     borderColor: focused === field ? 'rgba(26,20,245,0.7)' : 'rgba(255,255,255,0.12)',
   });
+
+  function set(field: keyof typeof fields) {
+    return (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+      setFields(prev => ({ ...prev, [field]: e.target.value }));
+  }
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+
+    const body = [
+      `Name: ${fields.name}`,
+      `Email: ${fields.email}`,
+      `What I do: ${fields.role}`,
+      ``,
+      `Why I'd make a good guest:`,
+      fields.why,
+      fields.social ? `\nSocial: ${fields.social}` : '',
+    ].join('\n');
+
+    const gmailUrl =
+      `https://mail.google.com/mail/?view=cm` +
+      `&to=aaryanpol14@gmail.com` +
+      `&su=${encodeURIComponent(`${fields.name}'s Application`)}` +
+      `&body=${encodeURIComponent(body)}`;
+
+    window.open(gmailUrl, '_blank');
+    setSent(true);
+  }
 
   return (
     <section
@@ -116,226 +150,219 @@ export default function BeAGuest({ isActive = false }: { isActive?: boolean }) {
         paddingBottom: 'clamp(3rem, 6vw, 5rem)',
         paddingLeft: 'clamp(1rem, 5vw, 2rem)',
       }}>
-      <GradientDots backgroundColor="#0d2b5e" dotSize={7} spacing={9} duration={32} colorCycleDuration={7} className="z-0 opacity-[0.18] pointer-events-none" />
-      <div style={{ maxWidth: '900px', margin: '0 auto', width: '100%', position: 'relative', zIndex: 1 }}>
+        <GradientDots backgroundColor="#0d2b5e" dotSize={7} spacing={9} duration={32} colorCycleDuration={7} className="z-0 opacity-[0.18] pointer-events-none" />
+        <div style={{ maxWidth: '900px', margin: '0 auto', width: '100%', position: 'relative', zIndex: 1 }}>
 
-        {/* Eyebrow */}
-        <motion.p {...reveal(0.05, isActive)} style={{
-          fontSize: '11px', fontWeight: 500, letterSpacing: '0.22em',
-          color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', marginBottom: '1.5rem',
-        }}>
-          05 / Get in Touch
-        </motion.p>
-
-        {/* Headline */}
-        <motion.h2 {...reveal(0.15, isActive)} style={{
-          fontSize: 'clamp(2.4rem, 5vw, 4.5rem)', fontWeight: 900,
-          lineHeight: 0.97, letterSpacing: '-0.03em', color: 'white', marginBottom: '1.25rem',
-        }}>
-          Apply, connect,<br />or just say hey.
-        </motion.h2>
-
-        {/* Subhead */}
-        <motion.p {...reveal(0.25, isActive)} style={{
-          fontSize: '1.0625rem', fontWeight: 300, lineHeight: 1.85,
-          color: 'rgba(255,255,255,0.55)', marginBottom: '3rem',
-        }}>
-          Aaryan reviews every application personally and replies within a week.
-        </motion.p>
-
-        {/* Two-col layout */}
-        <motion.div {...reveal(0.35, isActive)} style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
-          gap: '1.25rem',
-          alignItems: 'start',
-        }}>
-
-          {/* Form card */}
-          <div style={{
-            backgroundColor: 'rgba(255,255,255,0.03)',
-            border: '1px solid rgba(255,255,255,0.08)',
-            borderRadius: '16px',
-            padding: '2rem',
+          <motion.p {...reveal(0.05, isActive)} style={{
+            fontSize: '11px', fontWeight: 500, letterSpacing: '0.22em',
+            color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', marginBottom: '1.5rem',
           }}>
-            <h3 style={{
-              fontSize: '1.1rem', fontWeight: 700, color: 'white', marginBottom: '1.75rem',
-            }}>
-              Send an Application
-            </h3>
+            05 / Get in Touch
+          </motion.p>
 
-            {state.succeeded ? (
-              <div style={{
-                padding: '2rem 0',
-                color: 'rgba(255,255,255,0.85)',
-                fontSize: '1.0625rem',
-                fontWeight: 300,
-                lineHeight: 1.85,
-              }}>
-                Got it. Aaryan reviews every application personally and replies within a week.
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                <div>
-                  <label style={labelStyle}>Name</label>
-                  <input
-                    required
-                    type="text"
-                    name="name"
-                    onFocus={() => setFocused('name')}
-                    onBlur={() => setFocused(null)}
-                    style={focusStyle('name')}
-                    placeholder="Your name"
-                  />
-                  <ValidationError field="name" errors={state.errors} style={{ color: 'rgba(255,100,100,0.85)', fontSize: '0.8rem', marginTop: '0.25rem' }} />
-                </div>
-                <div>
-                  <label style={labelStyle}>Email</label>
-                  <input
-                    required
-                    type="email"
-                    name="email"
-                    onFocus={() => setFocused('email')}
-                    onBlur={() => setFocused(null)}
-                    style={focusStyle('email')}
-                    placeholder="you@example.com"
-                  />
-                  <ValidationError field="email" errors={state.errors} style={{ color: 'rgba(255,100,100,0.85)', fontSize: '0.8rem', marginTop: '0.25rem' }} />
-                </div>
-                <div>
-                  <label style={labelStyle}>What you do</label>
-                  <input
-                    required
-                    type="text"
-                    name="role"
-                    onFocus={() => setFocused('role')}
-                    onBlur={() => setFocused(null)}
-                    style={focusStyle('role')}
-                    placeholder="Founder, student, researcher..."
-                  />
-                  <ValidationError field="role" errors={state.errors} style={{ color: 'rgba(255,100,100,0.85)', fontSize: '0.8rem', marginTop: '0.25rem' }} />
-                </div>
-                <div>
-                  <label style={labelStyle}>Why you&apos;d make a good guest</label>
-                  <textarea
-                    required
-                    name="why"
-                    onFocus={() => setFocused('why')}
-                    onBlur={() => setFocused(null)}
-                    rows={4}
-                    style={{ ...focusStyle('why'), resize: 'vertical' }}
-                    placeholder="What's your story? What would you bring to the show?"
-                  />
-                  <ValidationError field="why" errors={state.errors} style={{ color: 'rgba(255,100,100,0.85)', fontSize: '0.8rem', marginTop: '0.25rem' }} />
-                </div>
-                <div>
-                  <label style={labelStyle}>Social link <span style={{ opacity: 0.45, textTransform: 'none', letterSpacing: 0 }}>(optional)</span></label>
-                  <input
-                    type="url"
-                    name="social"
-                    onFocus={() => setFocused('social')}
-                    onBlur={() => setFocused(null)}
-                    style={focusStyle('social')}
-                    placeholder="LinkedIn, Twitter, Instagram..."
-                  />
-                </div>
-                <button
-                  type="submit"
-                  disabled={state.submitting}
-                  style={{
-                    width: '100%',
-                    padding: '0.85rem',
-                    backgroundColor: '#1A14F5',
-                    border: '1px solid #1A14F5',
-                    borderRadius: '8px',
-                    color: 'white',
-                    fontSize: '0.8125rem',
-                    fontWeight: 700,
-                    fontFamily: 'inherit',
-                    letterSpacing: '0.1em',
-                    textTransform: 'uppercase',
-                    cursor: state.submitting ? 'not-allowed' : 'pointer',
-                    transition: 'opacity 0.2s',
-                    marginTop: '0.25rem',
-                    opacity: state.submitting ? 0.6 : 1,
-                  }}
-                  onMouseEnter={e => { if (!state.submitting) e.currentTarget.style.opacity = '0.85'; }}
-                  onMouseLeave={e => { if (!state.submitting) e.currentTarget.style.opacity = '1'; }}
-                >
-                  {state.submitting ? 'Sending...' : 'Apply'}
-                </button>
-              </form>
-            )}
-          </div>
-
-          {/* Contact card */}
-          <div style={{
-            backgroundColor: 'rgba(255,255,255,0.03)',
-            border: '1px solid rgba(255,255,255,0.08)',
-            borderRadius: '16px',
-            padding: '2rem',
+          <motion.h2 {...reveal(0.15, isActive)} style={{
+            fontSize: 'clamp(2.4rem, 5vw, 4.5rem)', fontWeight: 900,
+            lineHeight: 0.97, letterSpacing: '-0.03em', color: 'white', marginBottom: '1.25rem',
           }}>
-            <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'white', marginBottom: '1rem' }}>
-              Other Ways to Reach Out
-            </h3>
-            <p style={{
-              fontSize: '0.9375rem', fontWeight: 300, lineHeight: 1.7,
-              color: 'rgba(255,255,255,0.65)', marginBottom: '1.75rem',
-            }}>
-              Got a story worth sharing, an idea that could spark a conversation, or just want to say hey? Aaryan&apos;s always looking for people doing bold things.
-            </p>
+            Apply, connect,<br />or just say hey.
+          </motion.h2>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              {contacts.map(({ Icon, label, value, href }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target={href.startsWith('mailto') ? undefined : '_blank'}
-                  rel="noopener noreferrer"
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '1rem',
-                    padding: '1rem 1.25rem',
-                    backgroundColor: 'rgba(255,255,255,0.04)',
-                    border: '1px solid rgba(255,255,255,0.08)',
-                    borderRadius: '10px',
-                    textDecoration: 'none',
-                    transition: 'border-color 0.2s, background-color 0.2s',
-                    color: 'white',
-                  }}
-                  onMouseEnter={e => {
-                    (e.currentTarget as HTMLElement).style.borderColor = 'rgba(26,20,245,0.5)';
-                    (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(26,20,245,0.08)';
-                  }}
-                  onMouseLeave={e => {
-                    (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.08)';
-                    (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(255,255,255,0.04)';
-                  }}
-                >
-                  <div style={{
-                    width: '36px', height: '36px', borderRadius: '8px',
-                    backgroundColor: 'rgba(255,255,255,0.07)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    color: 'rgba(255,255,255,0.7)', flexShrink: 0,
-                  }}>
-                    <Icon />
+          <motion.p {...reveal(0.25, isActive)} style={{
+            fontSize: '1.0625rem', fontWeight: 300, lineHeight: 1.85,
+            color: 'rgba(255,255,255,0.55)', marginBottom: '3rem',
+          }}>
+            Aaryan reviews every application personally and replies within a week.
+          </motion.p>
+
+          <motion.div {...reveal(0.35, isActive)} style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
+            gap: '1.25rem',
+            alignItems: 'start',
+          }}>
+
+            {/* Form card */}
+            <div style={{
+              backgroundColor: 'rgba(255,255,255,0.03)',
+              border: '1px solid rgba(255,255,255,0.08)',
+              borderRadius: '16px',
+              padding: '2rem',
+            }}>
+              <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'white', marginBottom: '1.75rem' }}>
+                Send an Application
+              </h3>
+
+              {sent ? (
+                <div style={{
+                  padding: '2rem 0',
+                  color: 'rgba(255,255,255,0.85)',
+                  fontSize: '1.0625rem',
+                  fontWeight: 300,
+                  lineHeight: 1.85,
+                }}>
+                  Your email is ready — just add a subject line and hit send.
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                  <div>
+                    <label style={labelStyle}>Name</label>
+                    <input
+                      required
+                      type="text"
+                      value={fields.name}
+                      onChange={set('name')}
+                      onFocus={() => setFocused('name')}
+                      onBlur={() => setFocused(null)}
+                      style={focusStyle('name')}
+                      placeholder="Your name"
+                    />
                   </div>
                   <div>
-                    <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: 'white', letterSpacing: '0.01em' }}>
-                      {label}
-                    </div>
-                    <div style={{ fontSize: '0.8125rem', fontWeight: 300, color: 'rgba(255,255,255,0.5)', marginTop: '0.1rem' }}>
-                      {value}
-                    </div>
+                    <label style={labelStyle}>Email</label>
+                    <input
+                      required
+                      type="email"
+                      value={fields.email}
+                      onChange={set('email')}
+                      onFocus={() => setFocused('email')}
+                      onBlur={() => setFocused(null)}
+                      style={focusStyle('email')}
+                      placeholder="you@example.com"
+                    />
                   </div>
-                </a>
-              ))}
+                  <div>
+                    <label style={labelStyle}>What you do</label>
+                    <input
+                      required
+                      type="text"
+                      value={fields.role}
+                      onChange={set('role')}
+                      onFocus={() => setFocused('role')}
+                      onBlur={() => setFocused(null)}
+                      style={focusStyle('role')}
+                      placeholder="Founder, student, researcher..."
+                    />
+                  </div>
+                  <div>
+                    <label style={labelStyle}>Why you&apos;d make a good guest</label>
+                    <textarea
+                      required
+                      value={fields.why}
+                      onChange={set('why')}
+                      onFocus={() => setFocused('why')}
+                      onBlur={() => setFocused(null)}
+                      rows={4}
+                      style={{ ...focusStyle('why'), resize: 'vertical' }}
+                      placeholder="What's your story? What would you bring to the show?"
+                    />
+                  </div>
+                  <div>
+                    <label style={labelStyle}>Social link <span style={{ opacity: 0.45, textTransform: 'none', letterSpacing: 0 }}>(optional)</span></label>
+                    <input
+                      type="text"
+                      value={fields.social}
+                      onChange={set('social')}
+                      onFocus={() => setFocused('social')}
+                      onBlur={() => setFocused(null)}
+                      style={focusStyle('social')}
+                      placeholder="LinkedIn, Twitter, Instagram..."
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    style={{
+                      width: '100%',
+                      padding: '0.85rem',
+                      backgroundColor: '#1A14F5',
+                      border: '1px solid #1A14F5',
+                      borderRadius: '8px',
+                      color: 'white',
+                      fontSize: '0.8125rem',
+                      fontWeight: 700,
+                      fontFamily: 'inherit',
+                      letterSpacing: '0.1em',
+                      textTransform: 'uppercase',
+                      cursor: 'pointer',
+                      transition: 'opacity 0.2s',
+                      marginTop: '0.25rem',
+                    }}
+                    onMouseEnter={e => { e.currentTarget.style.opacity = '0.85'; }}
+                    onMouseLeave={e => { e.currentTarget.style.opacity = '1'; }}
+                  >
+                    Apply
+                  </button>
+                </form>
+              )}
             </div>
-          </div>
 
-        </motion.div>
-      </div>
+            {/* Contact card */}
+            <div style={{
+              backgroundColor: 'rgba(255,255,255,0.03)',
+              border: '1px solid rgba(255,255,255,0.08)',
+              borderRadius: '16px',
+              padding: '2rem',
+            }}>
+              <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'white', marginBottom: '1rem' }}>
+                Other Ways to Reach Out
+              </h3>
+              <p style={{
+                fontSize: '0.9375rem', fontWeight: 300, lineHeight: 1.7,
+                color: 'rgba(255,255,255,0.65)', marginBottom: '1.75rem',
+              }}>
+                Got a story worth sharing, an idea that could spark a conversation, or just want to say hey? Aaryan&apos;s always looking for people doing bold things.
+              </p>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                {contacts.map(({ Icon, label, value, href }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target={href.startsWith('mailto') ? undefined : '_blank'}
+                    rel="noopener noreferrer"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '1rem',
+                      padding: '1rem 1.25rem',
+                      backgroundColor: 'rgba(255,255,255,0.04)',
+                      border: '1px solid rgba(255,255,255,0.08)',
+                      borderRadius: '10px',
+                      textDecoration: 'none',
+                      transition: 'border-color 0.2s, background-color 0.2s',
+                      color: 'white',
+                    }}
+                    onMouseEnter={e => {
+                      (e.currentTarget as HTMLElement).style.borderColor = 'rgba(26,20,245,0.5)';
+                      (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(26,20,245,0.08)';
+                    }}
+                    onMouseLeave={e => {
+                      (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.08)';
+                      (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(255,255,255,0.04)';
+                    }}
+                  >
+                    <div style={{
+                      width: '36px', height: '36px', borderRadius: '8px',
+                      backgroundColor: 'rgba(255,255,255,0.07)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      color: 'rgba(255,255,255,0.7)', flexShrink: 0,
+                    }}>
+                      <Icon />
+                    </div>
+                    <div>
+                      <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: 'white', letterSpacing: '0.01em' }}>
+                        {label}
+                      </div>
+                      <div style={{ fontSize: '0.8125rem', fontWeight: 300, color: 'rgba(255,255,255,0.5)', marginTop: '0.1rem' }}>
+                        {value}
+                      </div>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+          </motion.div>
+        </div>
       </div>
     </section>
   );

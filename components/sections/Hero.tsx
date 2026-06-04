@@ -1,7 +1,9 @@
 'use client';
 
+import * as React from 'react';
 import { motion } from 'framer-motion';
 import Grainient from '@/components/Grainient';
+import { EpisodeBanner } from '@/components/ui/episode-banner';
 import type { SectionId } from '@/lib/section-types';
 
 const ease = [0.16, 1, 0.3, 1] as const;
@@ -19,6 +21,7 @@ const fadeIn = (delay: number) => ({
 });
 
 export default function Hero({ onNavigate }: { onNavigate?: (id: SectionId) => void }) {
+  const [bannerVisible, setBannerVisible] = React.useState(true);
 
   return (
     <section id="hero" className="snap-section flex flex-col relative" style={{ overflowY: 'auto' }}>
@@ -50,6 +53,13 @@ export default function Hero({ onNavigate }: { onNavigate?: (id: SectionId) => v
 
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center gap-6" style={{ paddingTop: 'clamp(110px, 16vh, 130px)' }}>
+        {/* Episode announcement banner */}
+        {bannerVisible && (
+          <motion.div {...fadeUp(0.15)}>
+            <EpisodeBanner onClose={() => setBannerVisible(false)} />
+          </motion.div>
+        )}
+
         {/* Eyebrow */}
         <motion.p
           {...fadeUp(0.3)}
@@ -61,7 +71,7 @@ export default function Hero({ onNavigate }: { onNavigate?: (id: SectionId) => v
         {/* Headline */}
         <motion.h1
           {...fadeUp(0.45)}
-          className="text-5xl sm:text-6xl lg:text-7xl xl:text-[5.5rem] font-black text-white leading-[0.92] tracking-tight max-w-4xl"
+          className="text-[2.5rem] sm:text-6xl lg:text-7xl xl:text-[5.5rem] font-black text-white leading-[0.92] tracking-tight max-w-4xl w-full"
         >
           Where Gen Z hustle meets bold conversations.
         </motion.h1>

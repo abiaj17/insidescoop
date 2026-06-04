@@ -237,9 +237,9 @@ export default function Navbar({ onNavigate, activeSection }: { onNavigate: (id:
                   >
                     <span
                       ref={(el) => { if (el) linksRef.current[i] = el; }}
+                      className="nav-link-text"
                       style={{
                         display: 'block',
-                        fontSize: 'clamp(1.8rem, 6.5vw, 7rem)',
                         fontWeight: 900,
                         color: '#ffffff',
                         letterSpacing: '-0.02em',
